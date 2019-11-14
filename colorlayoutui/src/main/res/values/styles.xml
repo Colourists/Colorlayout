@@ -1,0 +1,25 @@
+<resources>
+    <declare-styleable name="CornerLayout">
+        <attr name="circularCorner" format="boolean" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="leftTopCorner" format="dimension" />
+        <attr name="rightTopCorner" format="dimension" />
+        <attr name="leftBottomCorner" format="dimension" />
+        <attr name="rightBottomCorner" format="dimension" />
+        <attr name="rippleColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeColor" format="color" />
+        <attr name="mBackgroundTint" format="color" />
+        <attr name="mBackgroundTintMode" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ShadowContainer">
+        <attr name="containerShadowColor" format="color" />
+        <attr name="containerShadowRadius" format="dimension" />
+        <attr name="containerDeltaLength" format="dimension" />
+        <attr name="containerCornerRadius" format="dimension" />
+        <attr name="deltaX" format="dimension" />
+        <attr name="deltaY" format="dimension" />
+        <attr name="enable" format="boolean" />
+    </declare-styleable>
+</resources>
