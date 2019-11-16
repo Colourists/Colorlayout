@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.RelativeLayout;
 
 import colorists.layout.colorlayoutui.ColorRelativeLayout;
@@ -33,8 +35,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewById = findViewById(R.id.blocking);
+//        viewById.setEnabled();
         re = findViewById(R.id.re);
         s = findViewById(R.id.save_scale_type);
+        s.setElevation(10);
+        s.setClipToOutline(true);
+        s.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 50);
+//                outline.
+            }
+        });
 //        re.setBackgroundDrawable();
     }
 

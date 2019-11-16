@@ -68,10 +68,26 @@ public class ColouristsUiHelper {
         rippleColor = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.CornerLayout_rippleColor);
         strokeColor = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.CornerLayout_strokeColor);
         strokeWidth = typedArray.getDimensionPixelSize(R.styleable.CornerLayout_strokeWidth, 0);
-
+        getSecondPro();
         Log.e("TAG", "loadFromAttributes: ");
         colorRelativeLayout.setInternalBackground(IS_LOLLIPOP ? this.createBackgroundLollipop() : this.createBackgroundCompat());
 
+    }
+
+    public ColorStateList getSecondPro() {
+//        int[] colors = new int[] { pressed, focused, normal, focused, unable, normal };
+        int[] colors = new int[]{android.R.color.background_dark, android.R.color.background_dark
+                , android.R.color.background_dark, android.R.color.background_dark, android.R.color.background_dark
+                , android.R.color.background_dark};
+        int[][] states = new int[6][];
+        states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+        states[1] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
+        states[2] = new int[]{android.R.attr.state_enabled};
+        states[3] = new int[]{android.R.attr.state_focused};
+        states[4] = new int[]{android.R.attr.state_window_focused};
+        states[5] = new int[]{};
+        ColorStateList colorStateList = new ColorStateList(states, colors);
+        return colorStateList;
     }
 
     public float getCornerRadius() {
@@ -108,7 +124,7 @@ public class ColouristsUiHelper {
         backgroundDrawableLollipop = new GradientDrawable();
         backgroundDrawableLollipop.setCornerRadius((float) cornerRadius);
         backgroundDrawableLollipop.setColor(backgroundTint);
-        backgroundDrawableLollipop.setStroke(strokeWidth,strokeColor);
+        backgroundDrawableLollipop.setStroke(strokeWidth, strokeColor);
         updateTintAndTintModeLollipop();
 //        return backgroundDrawableLollipop;
 //        strokeDrawableLollipop = new GradientDrawable();

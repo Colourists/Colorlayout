@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.RelativeLayout;
 
+import static android.graphics.BlurMaskFilter.Blur.OUTER;
 import static android.graphics.BlurMaskFilter.Blur.SOLID;
 
 public class ColorRelativeLayout extends RelativeLayout {
@@ -35,7 +36,6 @@ public class ColorRelativeLayout extends RelativeLayout {
         colouristsUiHelper.loadFromAttributes(typedArray);
         typedArray.recycle();
         init();
-
     }
 
     public ColorRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -46,17 +46,17 @@ public class ColorRelativeLayout extends RelativeLayout {
     @Override
     public void setBackgroundDrawable(Drawable background) {
         Log.e("TAG", "setBackgroundDrawable: ");
-//        if (isUsingOriginalBackground()) {
-//            if (background != this.getBackground()) {
-//                Log.i("MaterialButton", "Setting a custom background is not supported.");
-//                this.colouristsUiHelper.setBackgroundOverwritten();
-//                super.setBackgroundDrawable(background);
-//            } else {
-//                this.getBackground().setState(background.getState());
-//            }
-//        } else {
-        super.setBackgroundDrawable(background);
-//        }
+        if (isUsingOriginalBackground()) {
+            if (background != this.getBackground()) {
+                Log.i("MaterialButton", "Setting a custom background is not supported.");
+                this.colouristsUiHelper.setBackgroundOverwritten();
+                super.setBackgroundDrawable(background);
+            } else {
+                this.getBackground().setState(background.getState());
+            }
+        } else {
+            super.setBackgroundDrawable(background);
+        }
 //        setBackground(background);
     }
 
@@ -74,18 +74,6 @@ public class ColorRelativeLayout extends RelativeLayout {
     @Override
     public void setBackground(Drawable background) {
         setBackgroundDrawable(background);
-//        setBackgroundDrawable(background);
-//        if (this.isUsingOriginalBackground()) {
-//            if (background != this.getBackground()) {
-//                Log.i("MaterialButton", "Setting a custom background is not supported.");
-//                this.colouristsUiHelper.setBackgroundOverwritten();
-//                super.setBackground(background);
-//            } else {
-//                this.getBackground().setState(background.getState());
-//            }
-//        } else {
-//            super.setBackground(background);
-//        }
     }
 
     void setInternalBackground(Drawable background) {
@@ -108,6 +96,7 @@ public class ColorRelativeLayout extends RelativeLayout {
         super.onLayout(changed, left, top, right, bottom);
         int w = getWidth();
         int h = getHeight();
+
         roundRect.set(0, 0, w, h);
     }
 
@@ -120,17 +109,19 @@ public class ColorRelativeLayout extends RelativeLayout {
     private Paint paint = new Paint();
 
     protected void init() {
-        paint.setMaskFilter(new BlurMaskFilter(colouristsUiHelper.getCornerRadius(), SOLID));
+        paint.setMaskFilter(new BlurMaskFilter(20, OUTER));
+        paint.setColor(Color.RED);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.saveLayer(roundRect, paint, Canvas.ALL_SAVE_FLAG);
+//        canvas.saveLayer(roundRect, paint, Canvas.ALL_SAVE_FLAG);
         canvas.drawRoundRect(roundRect, colouristsUiHelper.getCornerRadius(), colouristsUiHelper.getCornerRadius(), paint);
+        canvas.save();
         //哪个角不是圆角我再把你用矩形画出来
 //        canvas.drawRect(0, 0, cornerRadius, cornerRadius, zonePaint);
 
-        canvas.saveLayer(roundRect, paint, Canvas.ALL_SAVE_FLAG);
+//        canvas.saveLayer(roundRect, paint, Canvas.ALL_SAVE_FLAG);
         super.draw(canvas);
         canvas.restore();
     }
