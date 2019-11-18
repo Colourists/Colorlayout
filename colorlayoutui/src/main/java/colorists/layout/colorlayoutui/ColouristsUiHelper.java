@@ -30,6 +30,8 @@ public class ColouristsUiHelper {
     private boolean circularCorner;
     //四个角都是这个弧度
     private float cornerRadius;
+    private float[] cornerRadiusAll = new float[8];
+
     //设置四个角的弧度
     private float leftBottomCorner;
     private float leftTopCorner;
@@ -51,27 +53,59 @@ public class ColouristsUiHelper {
     private ColorStateList strokeColor;
     private GradientDrawable strokeDrawableLollipop;
     private int strokeWidth;
+    private int measuredHeight;
+    private int measuredWidth;
 
     public ColouristsUiHelper(ColorRelativeLayout colorRelativeLayout) {
         this.colorRelativeLayout = colorRelativeLayout;
     }
 
     public void loadFromAttributes(TypedArray typedArray) {
-        circularCorner = typedArray.getBoolean(R.styleable.CornerLayout_circularCorner, false);
-        cornerRadius = typedArray.getDimension(R.styleable.CornerLayout_cornerRadius, 0);
-        leftBottomCorner = typedArray.getDimension(R.styleable.CornerLayout_leftBottomCorner, 0);
-        leftTopCorner = typedArray.getDimension(R.styleable.CornerLayout_leftTopCorner, 0);
-        rightTopCorner = typedArray.getDimension(R.styleable.CornerLayout_rightTopCorner, 0);
-        rightBottomCorner = typedArray.getDimension(R.styleable.CornerLayout_rightBottomCorner, 0);
-        backgroundTintMode = ViewUtils.parseTintMode(typedArray.getInt(R.styleable.CornerLayout_mBackgroundTintMode, -1), PorterDuff.Mode.SRC_IN);
-        backgroundTint = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.CornerLayout_mBackgroundTint);
-        rippleColor = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.CornerLayout_rippleColor);
-        strokeColor = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.CornerLayout_strokeColor);
-        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.CornerLayout_strokeWidth, 0);
-        getSecondPro();
-        Log.e("TAG", "loadFromAttributes: ");
+
+        circularCorner = typedArray.getBoolean(R.styleable.ColorRelativeLayout_circularCorner, false);
+        setcornerRadius(typedArray);
+
+        backgroundTintMode = ViewUtils.parseTintMode(typedArray.getInt(R.styleable.ColorRelativeLayout_mBackgroundTintMode, -1), PorterDuff.Mode.SRC_IN);
+
+        backgroundTint = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.ColorRelativeLayout_mBackgroundTint);
+        rippleColor = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.ColorRelativeLayout_rippleColor);
+        strokeColor = MaterialResources.getColorStateList(colorRelativeLayout.getContext(), typedArray, R.styleable.ColorRelativeLayout_strokeColor);
+        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.ColorRelativeLayout_strokeWidth, 0);
+//        getSecondPro();
         colorRelativeLayout.setInternalBackground(IS_LOLLIPOP ? this.createBackgroundLollipop() : this.createBackgroundCompat());
 
+        Log.e("TAG", "loadFromAttributes: ");
+
+
+    }
+
+
+    /**
+     * 设置圆角
+     *
+     * @param typedArray
+     */
+    private void setcornerRadius(TypedArray typedArray) {
+        cornerRadius = typedArray.getDimension(R.styleable.ColorRelativeLayout_cornerRadius, -1);
+        if (cornerRadius >= 0) {
+            cornerRadiusAll[0] = cornerRadius;
+            cornerRadiusAll[1] = cornerRadius;
+            cornerRadiusAll[2] = cornerRadius;
+            cornerRadiusAll[3] = cornerRadius;
+            cornerRadiusAll[4] = cornerRadius;
+            cornerRadiusAll[5] = cornerRadius;
+            cornerRadiusAll[6] = cornerRadius;
+            cornerRadiusAll[7] = cornerRadius;
+        } else {
+            cornerRadiusAll[0] = typedArray.getDimension(R.styleable.ColorRelativeLayout_leftTopCorner, 0);
+            cornerRadiusAll[1] = cornerRadiusAll[0];
+            cornerRadiusAll[2] = typedArray.getDimension(R.styleable.ColorRelativeLayout_rightTopCorner, 0);
+            cornerRadiusAll[3] = cornerRadiusAll[2];
+            cornerRadiusAll[4] = typedArray.getDimension(R.styleable.ColorRelativeLayout_rightBottomCorner, 0);
+            cornerRadiusAll[5] = cornerRadiusAll[4];
+            cornerRadiusAll[6] = typedArray.getDimension(R.styleable.ColorRelativeLayout_leftBottomCorner, 0);
+            cornerRadiusAll[7] = cornerRadiusAll[6];
+        }
     }
 
     public ColorStateList getSecondPro() {
@@ -90,24 +124,39 @@ public class ColouristsUiHelper {
         return colorStateList;
     }
 
-    public float getCornerRadius() {
-        return cornerRadius;
+    public float[] getCornerRadius() {
+        return cornerRadiusAll;
+    }
+
+    private int getShapeWidth() {
+        Log.e("TAG", measuredWidth + "getShapeWidth: " + measuredHeight);
+        return measuredWidth > measuredHeight ? measuredHeight : measuredWidth;
     }
 
     private Drawable createBackgroundCompat() {
         Log.e("TAG", "createBackgroundCompat: ");
 
         colorableBackgroundDrawableCompat = new GradientDrawable();
-        colorableBackgroundDrawableCompat.setCornerRadius((float) cornerRadius);
+        rippleDrawableCompat = new GradientDrawable();
+        if (circularCorner) {
+            colorableBackgroundDrawableCompat.setShape(GradientDrawable.OVAL);
+            colorableBackgroundDrawableCompat.setSize(getShapeWidth(), getShapeWidth());
+            rippleDrawableCompat.setShape(GradientDrawable.OVAL);
+            rippleDrawableCompat.setSize(getShapeWidth(), getShapeWidth());
+
+        } else {
+            colorableBackgroundDrawableCompat.setCornerRadii(cornerRadiusAll);
+            rippleDrawableCompat.setCornerRadii(cornerRadiusAll);
+        }
+
+//        colorableBackgroundDrawableCompat.setCornerRadius((float) cornerRadius);
         colorableBackgroundDrawableCompat.setColor(-1);
         tintableBackgroundDrawableCompat = DrawableCompat.wrap(colorableBackgroundDrawableCompat);
         DrawableCompat.setTintList(this.tintableBackgroundDrawableCompat, backgroundTint);
 //        if (backgroundTintMode != null) {
 //            DrawableCompat.setTintMode(this.tintableBackgroundDrawableCompat, this.backgroundTintMode);
 //        }
-
-        rippleDrawableCompat = new GradientDrawable();
-        rippleDrawableCompat.setCornerRadius((float) cornerRadius);
+//        rippleDrawableCompat.setCornerRadius((float) cornerRadius);
         rippleDrawableCompat.setColor(-1);
         tintableRippleDrawableCompat = DrawableCompat.wrap(this.rippleDrawableCompat);
         DrawableCompat.setTintList(tintableRippleDrawableCompat, rippleColor);
@@ -121,8 +170,24 @@ public class ColouristsUiHelper {
     @TargetApi(21)
     private Drawable createBackgroundLollipop() {
         Log.e("TAG", "createBackgroundLollipop: ");
+//        左上角，右上角，右下角，左下
+
         backgroundDrawableLollipop = new GradientDrawable();
-        backgroundDrawableLollipop.setCornerRadius((float) cornerRadius);
+        maskDrawableLollipop = new GradientDrawable();
+        if (circularCorner) {
+            backgroundDrawableLollipop.setShape(GradientDrawable.OVAL);
+            Log.e("TAG", "createBackgroundLollipop: " + getShapeWidth());
+            backgroundDrawableLollipop.setSize(getShapeWidth(), getShapeWidth());
+            maskDrawableLollipop.setShape(GradientDrawable.OVAL);
+            maskDrawableLollipop.setSize(getShapeWidth(), getShapeWidth());
+
+        } else {
+            backgroundDrawableLollipop.setCornerRadii(cornerRadiusAll);
+            maskDrawableLollipop.setCornerRadii(cornerRadiusAll);
+        }
+//        backgroundDrawableLollipop.setCornerRadius((float) cornerRadius);
+
+
         backgroundDrawableLollipop.setColor(backgroundTint);
         backgroundDrawableLollipop.setStroke(strokeWidth, strokeColor);
         updateTintAndTintModeLollipop();
@@ -133,11 +198,12 @@ public class ColouristsUiHelper {
 //        strokeDrawableLollipop.setStroke(strokeWidth, strokeColor);
 //        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{this.backgroundDrawableLollipop, strokeDrawableLollipop});
 //        InsetDrawable bgInsetDrawable = wrapDrawableWithInset(layerDrawable);
-        maskDrawableLollipop = new GradientDrawable();
-        maskDrawableLollipop.setCornerRadius((float) this.cornerRadius);
+
+//        maskDrawableLollipop.setCornerRadius((float) this.cornerRadius);
+
         maskDrawableLollipop.setColor(-1);
 //        return backgroundDrawableLollipop;
-        return new MaterialButtonBackgroundDrawable(RippleUtils.convertToRippleDrawableColor(this.rippleColor), backgroundDrawableLollipop, this.maskDrawableLollipop);
+        return new MaterialButtonBackgroundDrawable(RippleUtils.convertToRippleDrawableColor(this.rippleColor), backgroundDrawableLollipop, maskDrawableLollipop);
     }
 
     private void updateTintAndTintModeLollipop() {

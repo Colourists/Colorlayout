@@ -31,11 +31,12 @@ public class ColorRelativeLayout extends RelativeLayout {
     public ColorRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         Log.e("TAG", "ColorRelativeLayout: ");
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CornerLayout);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorRelativeLayout);
         colouristsUiHelper = new ColouristsUiHelper(this);
         colouristsUiHelper.loadFromAttributes(typedArray);
         typedArray.recycle();
         init();
+
     }
 
     public ColorRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -96,13 +97,7 @@ public class ColorRelativeLayout extends RelativeLayout {
         super.onLayout(changed, left, top, right, bottom);
         int w = getWidth();
         int h = getHeight();
-
         roundRect.set(0, 0, w, h);
-    }
-
-    {
-        // 需禁用硬件加速
-        setLayerType(LAYER_TYPE_SOFTWARE, null);
     }
 
     //
@@ -116,14 +111,14 @@ public class ColorRelativeLayout extends RelativeLayout {
     @Override
     public void draw(Canvas canvas) {
 //        canvas.saveLayer(roundRect, paint, Canvas.ALL_SAVE_FLAG);
-        canvas.drawRoundRect(roundRect, colouristsUiHelper.getCornerRadius(), colouristsUiHelper.getCornerRadius(), paint);
-        canvas.save();
+//        canvas.drawRoundRect(roundRect, colouristsUiHelper.getCornerRadius(), colouristsUiHelper.getCornerRadius(), paint);
+//        canvas.save();
         //哪个角不是圆角我再把你用矩形画出来
 //        canvas.drawRect(0, 0, cornerRadius, cornerRadius, zonePaint);
 
 //        canvas.saveLayer(roundRect, paint, Canvas.ALL_SAVE_FLAG);
         super.draw(canvas);
-        canvas.restore();
+//        canvas.restore();
     }
 
     private boolean isUsingOriginalBackground() {

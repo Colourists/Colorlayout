@@ -1,5 +1,5 @@
 <resources>
-    <declare-styleable name="CornerLayout">
+    <declare-styleable name="ColorRelativeLayout">
         <attr name="circularCorner" format="boolean" />
         <attr name="cornerRadius" format="dimension" />
         <attr name="leftTopCorner" format="dimension" />
@@ -22,4 +22,10 @@
         <attr name="deltaY" format="dimension" />
         <attr name="enable" format="boolean" />
     </declare-styleable>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/red</item>
+    </style>
 </resources>
