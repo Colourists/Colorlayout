@@ -30,7 +30,6 @@ public class ColorRelativeLayout extends RelativeLayout {
 
     public ColorRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Log.e("TAG", "ColorRelativeLayout: ");
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorRelativeLayout);
         colouristsUiHelper = new ColouristsUiHelper(this);
         colouristsUiHelper.loadFromAttributes(typedArray);
@@ -46,10 +45,9 @@ public class ColorRelativeLayout extends RelativeLayout {
 
     @Override
     public void setBackgroundDrawable(Drawable background) {
-        Log.e("TAG", "setBackgroundDrawable: ");
         if (isUsingOriginalBackground()) {
             if (background != this.getBackground()) {
-                Log.i("MaterialButton", "Setting a custom background is not supported.");
+                Log.i("ColorRelativeLayout", "Setting a custom background is not supported.");
                 this.colouristsUiHelper.setBackgroundOverwritten();
                 super.setBackgroundDrawable(background);
             } else {

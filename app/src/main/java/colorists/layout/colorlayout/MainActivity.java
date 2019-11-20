@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         byId = findViewById(R.id.dfd);
 //        viewById.setEnabled();
         re = findViewById(R.id.re);
+//        re.setOnClickListener();
         s = findViewById(R.id.save_scale_type);
 //        s.setOutlineSpotShadowColor();
         s.setElevation(10);

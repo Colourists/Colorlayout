@@ -36,48 +36,59 @@ public class ColorCanvasRelativeLayout extends RelativeLayout {
     public ColorCanvasRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorRelativeLayout);
-        // 颜色数组
-        int[] colors = new int[]{R.color.colorAccent, R.color.colorAccent1, R.color.colorPrimary, R.color.colorPrimaryDark, R.color.design_default_color_primary_dark, R.color.red};
-
-// 颜色数组对应的状态
-        int[][] states = new int[6][];
-        states[0] = new int[]{android.R.attr.state_enabled};
-        states[1] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
-        states[2] = new int[]{android.R.attr.state_enabled};
-        states[3] = new int[]{android.R.attr.state_focused};
-        states[4] = new int[]{android.R.attr.state_window_focused};
-        states[5] = new int[]{};
-        ColorStateList colorList = new ColorStateList(states, colors);
-//        gradientDrawable1.setColor(colorList);
-        StateListDrawable stateListDrawable = new StateListDrawable();
-        RippleDrawable rippleDrawable = getRippleDrawable(R.color.red, Color.BLUE);
-
-        stateListDrawable.addState(new int[]{android.R.attr.clickable}, rippleDrawable);
-//        stateListDrawable.addState(new int[]{android.R.attr.state_focused}, getRippleDrawable(R.color.red, Color.BLACK));
-        stateListDrawable.addState(new int[]{}, getRippleDrawable(R.color.red, Color.YELLOW));
-
-setEnabled(true);
+//        // 颜色数组
+//        int[] colors = new int[]{R.color.colorAccent, R.color.colorAccent1, R.color.colorPrimary, R.color.colorPrimaryDark, R.color.design_default_color_primary_dark, R.color.red};
+//
+//// 颜色数组对应的状态
+//        int[][] states = new int[6][];
+//        states[0] = new int[]{android.R.attr.state_enabled};
+//        states[1] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
+//        states[2] = new int[]{android.R.attr.state_enabled};
+//        states[3] = new int[]{android.R.attr.state_focused};
+//        states[4] = new int[]{android.R.attr.state_window_focused};
+//        states[5] = new int[]{};
+//        ColorStateList colorList = new ColorStateList(states, colors);
+////        gradientDrawable1.setColor(colorList);
+//        StateListDrawable stateListDrawable = new StateListDrawable();
+//        RippleDrawable rippleDrawable = getRippleDrawable(R.color.red, Color.BLUE);
+//
+//        stateListDrawable.addState(new int[]{android.R.attr.clickable}, rippleDrawable);
+////        stateListDrawable.addState(new int[]{android.R.attr.state_focused}, getRippleDrawable(R.color.red, Color.BLACK));
+//        stateListDrawable.addState(new int[]{}, getRippleDrawable(R.color.red, Color.YELLOW));
+//
+//        setEnabled(true);
 //        RippleDrawable rippleDrawable = getRippleDrawable(R.color.red, Color.YELLOW);
 //        RippleDrawable rippleDrawable = new RippleDrawable(colorList, gradientDrawable1, gradientDrawable);
-        setBackground(stateListDrawable);
+//        setBackground(stateListDrawable);
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setColor(-1);
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher);
+//        GradientDrawable gradientDrawable1 = new GradientDrawable();
+//        gradientDrawable1.setColor(backgrouncolor);
+        setBackground(new RippleDrawable(RippleUtils.convertToRippleDrawableColor(AppCompatResources.getColorStateList(getContext(), R.color.red)), drawable, gradientDrawable));
+
+
+//        setBackground(stateListDrawable);
         typedArray.recycle();
 
 
         init();
 
     }
+
     public ColorCanvasRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
     }
+
     private RippleDrawable getRippleDrawable(int RippleColor, int backgrouncolor) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setColor(-1);
+
         GradientDrawable gradientDrawable1 = new GradientDrawable();
         gradientDrawable1.setColor(backgrouncolor);
         return new RippleDrawable(RippleUtils.convertToRippleDrawableColor(AppCompatResources.getColorStateList(getContext(), RippleColor)), gradientDrawable1, gradientDrawable);
     }
-
 
 
     //
