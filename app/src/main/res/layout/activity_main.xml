@@ -65,6 +65,7 @@
         android:clickable="true"
         android:elevation="20dp"
         android:outlineProvider="bounds"
+        android:background="@color/colorAccent"
         android:outlineSpotShadowColor="#f00"
         android:translationZ="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
