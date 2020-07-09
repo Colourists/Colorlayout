@@ -82,9 +82,9 @@ public class RoundRectDrawableWithShadow extends Drawable {
 
     private void setShadowSize(float shadowSize, float maxShadowSize) {
         if (shadowSize < 0.0F) {
-            throw new IllegalArgumentException("Invalid shadow size " + shadowSize + ". Must be >= 0");
+            throw new IllegalArgumentException("Invalid shadow size " + shadowSize + ". Must ic_launcher_background >= 0");
         } else if (maxShadowSize < 0.0F) {
-            throw new IllegalArgumentException("Invalid max shadow size " + maxShadowSize + ". Must be >= 0");
+            throw new IllegalArgumentException("Invalid max shadow size " + maxShadowSize + ". Must ic_launcher_background >= 0");
         } else {
             shadowSize = (float) this.toEven(shadowSize);
             maxShadowSize = (float) this.toEven(maxShadowSize);
@@ -146,7 +146,7 @@ public class RoundRectDrawableWithShadow extends Drawable {
 
     void setCornerRadius(float radius) {
         if (radius < 0.0F) {
-            throw new IllegalArgumentException("Invalid radius " + radius + ". Must be >= 0");
+            throw new IllegalArgumentException("Invalid radius " + radius + ". Must ic_launcher_background >= 0");
         } else {
             radius = (float) ((int) (radius + 0.5F));
             if (this.mCornerRadius != radius) {
