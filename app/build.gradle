@@ -18,6 +18,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        dataBinding = true
+// for view binding :
+// viewBinding = true
+    }
 }
 
 dependencies {
@@ -27,6 +32,6 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation project(path: ':colorlayoutui')
     //注解获取权限
-    implementation('com.github.hotchemi:permissionsdispatcher:3.0.1')
-    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
+//    implementation('com.github.hotchemi:permissionsdispatcher:3.0.1')
+//    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.0.1"
 }

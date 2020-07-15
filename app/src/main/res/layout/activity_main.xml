@@ -25,7 +25,6 @@
         android:id="@+id/re"
         android:layout_width="106dp"
         android:layout_height="44dp"
-        android:background="@color/cardview_dark_background"
         android:elevation="15dp"
         android:onClick="OnClick"
         app:circularCorner="true"
